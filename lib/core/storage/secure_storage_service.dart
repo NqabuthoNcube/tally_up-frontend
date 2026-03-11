@@ -1,27 +1,36 @@
+/// core/storage/secure_storage_service.dart
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SecureStorageService {
-  final _storage = const FlutterSecureStorage();
+  static const _storage = FlutterSecureStorage();
 
+  static const _tokenKey = "jwt_token";
+  static const _accountKey = "account_id";
+
+  /// Save JWT token
   Future<void> saveToken(String token) async {
-    await _storage.write(key: 'jwt_token', value: token);
+    await _storage.write(key: _tokenKey, value: token);
   }
 
+  /// Retrieve JWT token
   Future<String?> getToken() async {
-    return await _storage.read(key: 'jwt_token');
+    return await _storage.read(key: _tokenKey);
   }
 
-  Future<void> clearToken() async {
-    // Remove the token from secure storage
-    await _storage.delete(key: 'auth_token');
+  /// Save account ID
+  Future<void> saveAccountId(String accountId) async {
+    await _storage.write(key: _accountKey, value: accountId);
   }
 
-  Future<void> clear() async {
-    await _storage.deleteAll();
+  /// Get account ID
+  Future<String?> getAccountId() async {
+    return await _storage.read(key: _accountKey);
+  }
+
+  /// Clear authentication session
+  Future<void> clearSession() async {
+    await _storage.delete(key: _tokenKey);
+    await _storage.delete(key: _accountKey);
   }
 }
-
-final secureStorageProvider = Provider<SecureStorageService>((ref) {
-  return SecureStorageService();
-});

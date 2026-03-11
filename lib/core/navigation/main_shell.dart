@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+/// lib/core/navigation/main_shell.dart
 
-import '../../features/home/home_screen.dart';
-import '../../features/tally/tally_screen.dart';
-import '../../features/profile/profile_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:tally_up/features/home/home_screen.dart';
+import 'package:tally_up/features/profile/profile_screen.dart';
+import 'package:tally_up/features/tally/tally_screen.dart';
+
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -12,47 +14,45 @@ class MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<MainShell> {
+  int _index = 0;
 
-  int index = 0;
-
-  final screens = const [
+  final List<Widget> _screens = const [
     HomeScreen(),
     TallyScreen(),
     ProfileScreen(),
   ];
 
+  void _onTap(int i) {
+    if (_index == i) return;
+
+    setState(() {
+      _index = i;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
-      body: screens[index],
-
+      body: IndexedStack(
+        index: _index,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
-
-        currentIndex: index,
-
-        onTap: (i) {
-          setState(() {
-            index = i;
-          });
-        },
-
+        currentIndex: _index,
+        onTap: _onTap,
+        type: BottomNavigationBarType.fixed,
         items: const [
-
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance_wallet),
-            label: "Tally's",
+            label: "Tallies",
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: "You",
+            label: "Profile",
           ),
         ],
       ),

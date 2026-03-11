@@ -15,32 +15,32 @@ class HelpScreen extends StatelessWidget {
 
       body: ListView(
 
-        children: [
+        children: const [
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
-          const ListTile(
+          ListTile(
             leading: Icon(Icons.help_outline),
             title: Text("How to send Tally"),
           ),
 
-          const Divider(),
+          Divider(),
 
-          const ListTile(
+          ListTile(
             leading: Icon(Icons.qr_code),
             title: Text("Using QR payments"),
           ),
 
-          const Divider(),
+          Divider(),
 
-          const ListTile(
+          ListTile(
             leading: Icon(Icons.security),
             title: Text("Security tips"),
           ),
 
-          const Divider(),
+          Divider(),
 
-          const ListTile(
+          ListTile(
             leading: Icon(Icons.contact_support),
             title: Text("Contact support"),
           ),

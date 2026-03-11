@@ -1,6 +1,12 @@
+/// core/utils/whatsapp_launcher.dart
+
 import 'package:url_launcher/url_launcher.dart';
 
 class WhatsAppLauncher {
+  /// Open WhatsApp bot
+  ///
+  /// Example usage:
+  /// WhatsAppLauncher.openTallyBot(phoneNumber: "263771234567")
   static Future<void> openTallyBot({
     required String phoneNumber,
     String? message,
@@ -12,11 +18,19 @@ class WhatsAppLauncher {
       "https://wa.me/$phoneNumber?text=$encodedMessage",
     );
 
-    if (!await launchUrl(
+    final canLaunch = await canLaunchUrl(url);
+
+    if (!canLaunch) {
+      throw Exception("WhatsApp is not available on this device");
+    }
+
+    final launched = await launchUrl(
       url,
       mode: LaunchMode.externalApplication,
-    )) {
-      throw Exception("Could not open WhatsApp");
+    );
+
+    if (!launched) {
+      throw Exception("Failed to open WhatsApp");
     }
   }
 }

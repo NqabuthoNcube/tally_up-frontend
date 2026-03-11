@@ -1,43 +1,65 @@
+/// shared/widgets/transaction_tile.dart
+
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/utils/currency_formatter.dart';
 
 class TransactionTile extends StatelessWidget {
-
   final String name;
-  final int amount;
+  final num amount;
   final bool incoming;
+  final DateTime? timestamp;
 
   const TransactionTile({
     super.key,
     required this.name,
     required this.amount,
     required this.incoming,
+    this.timestamp,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final color = incoming ? AppColors.success : AppColors.error;
+    final sign = incoming ? "+" : "-";
 
     return ListTile(
-
       leading: CircleAvatar(
         radius: 22,
-        backgroundColor: Colors.teal.shade100,
+        backgroundColor: color.withOpacity(0.15),
         child: Text(
-          name[0],
-          style: const TextStyle(
+          name.isNotEmpty ? name[0].toUpperCase() : "?",
+          style: TextStyle(
             fontWeight: FontWeight.bold,
+            color: color,
           ),
         ),
       ),
-
-      title: Text(name),
-
+      title: Text(
+        name,
+        style: theme.textTheme.bodyLarge,
+      ),
+      subtitle: timestamp != null
+          ? Text(
+              _formatTime(timestamp!),
+              style: theme.textTheme.bodySmall,
+            )
+          : null,
       trailing: Text(
-        "${incoming ? "+" : "-"}$amount",
-        style: TextStyle(
-          color: incoming ? Colors.green : Colors.red,
+        "$sign${CurrencyFormatter.format(amount)}",
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: color,
           fontWeight: FontWeight.bold,
         ),
       ),
     );
+  }
+
+  String _formatTime(DateTime time) {
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return "$hour:$minute";
   }
 }

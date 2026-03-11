@@ -1,45 +1,55 @@
+/// core/network/api_client.dart
+
 import 'package:dio/dio.dart';
+
 import '../config/app_config.dart';
 import '../storage/secure_storage_service.dart';
 
-
+/// Central HTTP client used across the application.
+///
+/// Responsibilities:
+/// - Configure Dio
+/// - Attach JWT token automatically
+/// - Apply base URL and timeouts
+/// - Provide a reusable HTTP client
 class ApiClient {
-  late final Dio _dio;
-  final SecureStorageService _storage;
+  final Dio dio;
+  final SecureStorageService storage;
 
-  ApiClient(this._storage) {
-    _dio = Dio(
-      BaseOptions(
-        baseUrl: AppConfig.baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      ),
-    );
+  ApiClient(this.storage)
+      : dio = Dio(
+          BaseOptions(
+            baseUrl: AppConfig.baseUrl,
+            connectTimeout:
+                Duration(seconds: AppConfig.connectionTimeoutSeconds),
+            receiveTimeout:
+                Duration(seconds: AppConfig.receiveTimeoutSeconds),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          ),
+        ) {
+    _initializeInterceptors();
+  }
 
-    _dio.interceptors.add(
+  /// Attach interceptors
+  void _initializeInterceptors() {
+    dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final token = await _storage.getToken();
-          if (token != null) {
-            options.headers["Authorization"] = "Bearer $token";
+          try {
+            final token = await storage.getToken();
+
+            if (token != null && token.isNotEmpty) {
+              options.headers["Authorization"] = "Bearer $token";
+            }
+
+            handler.next(options);
+          } catch (e) {
+            handler.next(options);
           }
-          return handler.next(options);
-        },
-        onError: (error, handler) {
-          return handler.next(error);
         },
       ),
     );
-  }
-
-  Future<Response> get(String path, {Map<String, dynamic>? query}) {
-    return _dio.get(path, queryParameters: query);
-  }
-
-  Future<Response> post(String path, {dynamic data}) {
-    return _dio.post(path, data: data);
   }
 }

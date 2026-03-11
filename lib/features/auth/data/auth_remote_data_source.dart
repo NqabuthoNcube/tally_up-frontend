@@ -1,18 +1,36 @@
-import 'dart:async';
+/// features/auth/data/auth_remote_data_source.dart
 
-/// Offline-friendly auth data source used until backend integration is added.
+import 'package:dio/dio.dart';
+
 class AuthRemoteDataSource {
+  final Dio dio;
+
+  AuthRemoteDataSource(this.dio);
+
   Future<void> requestOtp(String phone) async {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
+    await dio.post(
+      "/auth/request-otp",
+      queryParameters: {
+        "phone_number": phone,
+      },
+    );
   }
 
   Future<String> verifyOtp(String phone, String otp) async {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
+    final response = await dio.post(
+      "/auth/verify-otp",
+      data: {
+        "phone_number": phone,
+        "otp": otp,
+      },
+    );
 
-    if (otp == '123456') {
-      return 'local_jwt_token';
+    final token = response.data["access_token"];
+
+    if (token == null || token is! String) {
+      throw Exception("Invalid authentication response");
     }
 
-    throw Exception('Invalid OTP');
+    return token;
   }
 }
