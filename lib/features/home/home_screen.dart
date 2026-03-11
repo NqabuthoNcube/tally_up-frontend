@@ -16,30 +16,22 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return Scaffold(
-
       /// LEFT USER DRAWER
-      drawer: UserDrawer(),
+      drawer: const UserDrawer(),
 
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
-
               /// HEADER BAR
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
-
                   Row(
                     children: [
-
                       /// PROFILE → OPENS DRAWER
                       Builder(
                         builder: (context) => GestureDetector(
@@ -85,41 +77,36 @@ class HomeScreen extends ConsumerWidget {
               /// QUICK ACTION BUTTONS
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
-
                   ActionButton(
                     icon: Icons.send,
                     label: "Send",
                     onTap: () {
-                      ref.read(flowProvider.notifier)
+                      ref
+                          .read(flowProvider.notifier)
                           .goTo(AppFlowState.sendRecipient);
                     },
                   ),
-
                   ActionButton(
                     icon: Icons.qr_code,
                     label: "Receive",
                     onTap: () {
-                      ref.read(flowProvider.notifier)
-                          .goTo(AppFlowState.qrMy);
+                      ref.read(flowProvider.notifier).goTo(AppFlowState.qrMy);
                     },
                   ),
-
                   ActionButton(
                     icon: Icons.qr_code_scanner,
                     label: "Scan",
                     onTap: () {
-                      ref.read(flowProvider.notifier)
-                          .goTo(AppFlowState.qrScan);
+                      ref.read(flowProvider.notifier).goTo(AppFlowState.qrScan);
                     },
                   ),
-
                   ActionButton(
                     icon: Icons.history,
                     label: "History",
                     onTap: () {
-                      ref.read(flowProvider.notifier)
+                      ref
+                          .read(flowProvider.notifier)
                           .goTo(AppFlowState.history);
                     },
                   ),
@@ -143,19 +130,16 @@ class HomeScreen extends ConsumerWidget {
               Expanded(
                 child: ListView(
                   children: const [
-
                     TransactionTile(
                       name: "Tendai Moyo",
                       amount: 250,
                       incoming: true,
                     ),
-
                     TransactionTile(
                       name: "Samu Khumalo",
                       amount: 100,
                       incoming: false,
                     ),
-
                     TransactionTile(
                       name: "Nyasha Dube",
                       amount: 400,
