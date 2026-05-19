@@ -1,4 +1,5 @@
 /// shared/widgets/balance_card.dart
+library;
 
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';

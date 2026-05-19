@@ -1,4 +1,5 @@
 /// lib/core/navigation/main_shell.dart
+library;
 
 import 'package:flutter/material.dart';
 import 'package:tally_up/features/home/home_screen.dart';

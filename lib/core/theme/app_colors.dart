@@ -1,11 +1,17 @@
 /// core/theme/app_colors.dart
+library;
 
 import 'package:flutter/material.dart';
 
 class AppColors {
-  /// Brand
-  static const primary = Color(0xFF0E8A7E);
-  static const accent = Color(0xFF14B8A6);
+  /// Brand — bright green from UI designs
+  static const brandGreen = Color(0xFF2ECC71);
+  static const brandGreenDark = Color(0xFF27AE60);
+
+  /// Keep teal as accent for compatibility
+  static const primary = Color(0xFF2ECC71);
+  static const primaryDark = Color(0xFF27AE60);
+  static const accent = Color(0xFF1ABC9C);
 
   /// Light theme
   static const lightBackground = Color(0xFFF5F6F8);

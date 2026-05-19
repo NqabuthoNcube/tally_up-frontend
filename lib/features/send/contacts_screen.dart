@@ -1,4 +1,5 @@
 /// features/send/presentation/contacts_screen.dart
+library;
 
 import 'package:flutter/material.dart';
 

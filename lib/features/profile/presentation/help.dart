@@ -1,4 +1,5 @@
 /// features/profile/presentation/help.dart
+library;
 
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,5 @@
 /// core/services/otp_service.dart
+library;
 
 import 'package:dio/dio.dart';
 import 'package:tally_up/core/providers.dart';

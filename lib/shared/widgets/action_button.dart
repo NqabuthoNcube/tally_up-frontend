@@ -1,6 +1,8 @@
 /// shared/widgets/action_button.dart
+library;
 
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 
 class ActionButton extends StatelessWidget {
   final IconData icon;
@@ -16,38 +18,32 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
+    return GestureDetector(
       onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 60,
-            height: 60,
+            width: 62,
+            height: 62,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 10,
-                  color: Colors.black.withOpacity(0.05),
-                  offset: const Offset(0, 4),
-                )
-              ],
+              color: AppColors.brandGreen.withOpacity(0.1),
+              shape: BoxShape.circle,
             ),
             child: Icon(
               icon,
-              size: 28,
-              color: theme.colorScheme.primary,
+              size: 26,
+              color: AppColors.brandGreen,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Text(
             label,
-            style: theme.textTheme.bodySmall,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF6B7280),
+            ),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 /// core/providers/providers.dart
+library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tally_up/core/storage/secure_storage_service.dart';

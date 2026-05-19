@@ -1,6 +1,8 @@
 /// shared/widgets/transaction_tile.dart
+library;
 
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/utils/currency_formatter.dart';
 
 class TransactionTile extends StatelessWidget {
@@ -19,42 +21,98 @@ class TransactionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final color = incoming ? AppColors.brandGreen : AppColors.error;
+    final sign = incoming ? '+' : '-';
+    final label = _shortLabel(name);
 
-    final color = incoming ? Colors.green : Colors.red;
-    final sign = incoming ? "+" : "-";
-
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: color.withOpacity(0.15),
-        child: Text(
-          name.isNotEmpty ? name[0].toUpperCase() : "?",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: color,
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-        ),
+        ],
       ),
-      title: Text(name),
-      subtitle: timestamp != null
-          ? Text(
-              _formatTime(timestamp!),
-              style: theme.textTheme.bodySmall,
-            )
-          : null,
-      trailing: Text(
-        "$sign${CurrencyFormatter.format(amount)}",
-        style: TextStyle(
-          color: color,
-          fontWeight: FontWeight.bold,
-        ),
+      child: Row(
+        children: [
+          // Avatar
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 14),
+          // Details
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  incoming ? 'Received' : 'Sent',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  timestamp != null ? _formatDate(timestamp!) : '—',
+                  style: TextStyle(
+                    color: Colors.grey.shade500,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Amount
+          Text(
+            '$sign${CurrencyFormatter.format(amount)}',
+            style: TextStyle(
+              color: color,
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  String _formatTime(DateTime time) {
+  String _shortLabel(String name) {
+    // UUIDs show a meaningful icon; short names show initials
+    if (name.contains('-') && name.length > 20) {
+      return incoming ? '↓' : '↑';
+    }
+    return name.isNotEmpty ? name[0].toUpperCase() : '?';
+  }
+
+  String _formatDate(DateTime time) {
+    final months = [
+      'Jan','Feb','Mar','Apr','May','Jun',
+      'Jul','Aug','Sep','Oct','Nov','Dec'
+    ];
     final h = time.hour.toString().padLeft(2, '0');
     final m = time.minute.toString().padLeft(2, '0');
-    return "$h:$m";
+    return '${time.day} ${months[time.month - 1]}, $h:$m';
   }
 }

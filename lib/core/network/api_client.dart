@@ -1,4 +1,5 @@
 /// core/network/api_client.dart
+library;
 
 import 'package:dio/dio.dart';
 
@@ -21,9 +22,9 @@ class ApiClient {
           BaseOptions(
             baseUrl: AppConfig.baseUrl,
             connectTimeout:
-                Duration(seconds: AppConfig.connectionTimeoutSeconds),
+                const Duration(seconds: AppConfig.connectionTimeoutSeconds),
             receiveTimeout:
-                Duration(seconds: AppConfig.receiveTimeoutSeconds),
+                const Duration(seconds: AppConfig.receiveTimeoutSeconds),
             headers: {
               "Content-Type": "application/json",
             },

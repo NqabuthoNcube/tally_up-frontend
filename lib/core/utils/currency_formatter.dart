@@ -1,4 +1,5 @@
 /// core/utils/currency_formatter.dart
+library;
 
 class CurrencyFormatter {
   /// Internal currency name used by the ledger system

@@ -1,4 +1,5 @@
 /// core/utils/whatsapp_launcher.dart
+library;
 
 import 'package:url_launcher/url_launcher.dart';
 

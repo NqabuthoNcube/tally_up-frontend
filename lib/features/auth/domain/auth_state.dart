@@ -1,4 +1,5 @@
 /// features/auth/domain/auth_state.dart
+library;
 
 enum AuthStatus {
   initial,
@@ -20,6 +21,8 @@ class AuthState {
   });
 
   bool get isAuthenticated => status == AuthStatus.authenticated;
+  bool get isLoading => status == AuthStatus.loading;
+  bool get hasError => status == AuthStatus.error;
 
   AuthState copyWith({
     AuthStatus? status,
@@ -29,6 +32,7 @@ class AuthState {
     return AuthState(
       status: status ?? this.status,
       phone: phone ?? this.phone,
+      // Allow explicit null to clear errors when passing errorMessage: null
       errorMessage: errorMessage,
     );
   }

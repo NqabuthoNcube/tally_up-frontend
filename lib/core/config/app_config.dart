@@ -2,6 +2,9 @@
 ///
 /// Global configuration for the Flutter application.
 /// Handles environment variables and runtime configuration.
+library;
+
+import 'package:flutter/foundation.dart';
 
 class AppConfig {
   /// Toggle mock services (should be FALSE in production)
@@ -12,11 +15,22 @@ class AppConfig {
 
   /// Backend base URL
   ///
-  /// Android emulator must use 10.0.2.2 instead of localhost.
-  static const String baseUrl = String.fromEnvironment(
+  /// Defaults to localhost for Flutter web and 10.0.2.2 for Android emulator.
+  /// Override with --dart-define=BASE_URL=... for production or physical devices.
+  static const String _configuredBaseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://10.0.2.2:8000',
+    defaultValue: '',
   );
+
+  static String get baseUrl {
+    if (_configuredBaseUrl.isNotEmpty) {
+      return _configuredBaseUrl;
+    }
+    if (kIsWeb) {
+      return 'http://127.0.0.1:8000';
+    }
+    return 'http://10.0.2.2:8000';
+  }
 
   /// HTTP connection timeout
   static const int connectionTimeoutSeconds = 10;

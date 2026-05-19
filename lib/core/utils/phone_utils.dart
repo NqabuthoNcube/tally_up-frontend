@@ -1,4 +1,5 @@
 /// core/utils/phone_utils.dart
+library;
 
 class PhoneUtils {
   /// Normalize Zimbabwe phone numbers to E.164 format.

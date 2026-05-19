@@ -1,4 +1,5 @@
 /// features/tally/presentation/tally_screen.dart
+library;
 
 import 'package:flutter/material.dart';
 

@@ -2,6 +2,11 @@
 
 A new Flutter project.
 
+## Backend + API integration
+
+This repo includes a FastAPI backend under `backend/`. For the exact REST endpoints, auth flow (JWT), and recommended frontend module layout, see:
+- `docs/FRONTEND_INTEGRATION_GUIDE.md`
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

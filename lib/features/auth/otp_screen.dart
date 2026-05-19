@@ -1,4 +1,5 @@
 /// lib/features/auth/presentation/otp_screen.dart
+library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
